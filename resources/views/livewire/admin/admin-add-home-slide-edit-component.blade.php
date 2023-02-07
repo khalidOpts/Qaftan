@@ -90,8 +90,8 @@
                                                 <img src="{{asset('assets/imgs/sliders')}}/{{$Image}}" width="100"/>    
                                         @endif
                                         @error('Image')
-                                        <p class="text-danger">{{$message}}</p>
-                                    @enderror
+                                            <p class="text-danger">{{$message}}</p>
+                                        @enderror
                                     </div>
                                     <button type="submit" class="btn btn-primary float-end ">Update</button>
                                 </form>

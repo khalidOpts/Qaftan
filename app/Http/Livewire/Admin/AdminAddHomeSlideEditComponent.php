@@ -34,6 +34,7 @@ class AdminAddHomeSlideEditComponent extends Component
         $this->Image    = $slide->image     ;  
        $this->slider_id    = $slide->id        ;  
     }
+
     public function UpdateSlide(){
         $this->validate([
             'TopTitle'=>'required',
@@ -55,10 +56,11 @@ class AdminAddHomeSlideEditComponent extends Component
             $ImageName = Carbon::now()->timestamp.'.'.$this->newImage->extension();
             $this->newImage->storeAs('sliders',$ImageName); 
             $slide->Image = $ImageName;
-            $slide->save();
         }
+        $slide->save();
         session()->flash('message', 'slide has been Updated successfully');
     }
+
     public function render()
     {
         return view('livewire.admin.admin-add-home-slide-edit-component');
