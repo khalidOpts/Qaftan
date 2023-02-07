@@ -7,7 +7,7 @@ use Livewire\Component;
 class CartIconComponent extends Component
 {
 
-    protected $listener = ['refreshComponent' => '$refresh'];
+    protected $listeners = ['refreshComponent' => '$refresh'];
     public function render()
     {
         return view('livewire.cart-icon-component');

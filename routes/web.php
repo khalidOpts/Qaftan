@@ -18,6 +18,10 @@ use App\http\livewire\Admin\AdminEditProductComponent;
 use App\http\livewire\Admin\AdminAddHomeSlideComponent;
 use App\http\livewire\Admin\AdminAddHomeSlideEditComponent;
 use App\http\livewire\Admin\AdminHomeSliderComponent;
+// coupens
+use App\http\livewire\Admin\AdminCoupensComponent;
+use App\http\livewire\Admin\AdminAddCoupensComponent;
+use App\http\livewire\Admin\AdminEditCoupensComponent;
 
 use App\http\livewire\CategoryComponent;
 use App\http\livewire\SearchComponent;
@@ -72,6 +76,11 @@ Route::middleware(['auth','AuthAdmin'])->group(function(){
     Route::get('admin/slider',AdminHomeSliderComponent::class)->name('admin.Home.slider');
     Route::get('admin/slider/add',AdminAddHomeSlideComponent::class)->name('admin.Home.slide.add');
     Route::get('admin/slider/edit/{slide_id}',AdminAddHomeSlideEditComponent::class)->name('admin.Home.edit');
+    // coupens
+    Route::get('admin/coupens',AdminCoupensComponent::class)->name('admin.coupens');
+    Route::get('admin/coupens/add',AdminAddCoupensComponent::class)->name('admin.coupens.add');
+    Route::get('admin/coupens/edit/{coupen_id}',AdminEditCoupensComponent::class)->name('admin.coupens.edit');
+
 });
 
 // Route::middleware('auth')->group(function () {

@@ -1,4 +1,5 @@
 <div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <main class="main">
         <div class="page-header breadcrumb-wrap">
             <div class="container">
@@ -70,7 +71,7 @@
                         </div>
                         <div class="cart-action text-end">
                             <a class="btn  mr-10 mb-sm-15"><i class="fi-rs-shuffle mr-10"></i>Update Cart</a>
-                            <a class="btn "><i class="fi-rs-shopping-bag mr-10"></i>Continue Shopping</a>
+                            <a class="btn" href="{{route('shop')}}"><i class="fi-rs-shopping-bag mr-10"></i>Continue Shopping</a>
                         </div>
                         <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
                         <div class="row mb-50">
@@ -324,7 +325,6 @@
                                                     <option value="VE">Venezuela</option>
                                                     <option value="VN">Vietnam</option>
                                                     <option value="WF">Wallis and Futuna</option>
-                                                    <option value="EH">Western Sahara</option>
                                                     <option value="WS">Western Samoa</option>
                                                     <option value="YE">Yemen</option>
                                                     <option value="ZM">Zambia</option>
@@ -347,27 +347,30 @@
                                         </div>
                                     </div>
                                 </form>
-                                <div class="mb-30 mt-50">
-                                    <div class="heading_s1 mb-3">
-                                        <h4>Apply Coupon</h4>
-                                    </div>
-                                    <div class="total-amount">
-                                        <div class="left">
-                                            <div class="coupon">
-                                                <form action="#" target="_blank">
-                                                    <div class="form-row row justify-content-center">
-                                                        <div class="form-group col-lg-6">
-                                                            <input class="font-medium" name="Coupon" placeholder="Enter Your Coupon">
-                                                        </div>
-                                                        <div class="form-group col-lg-6">
-                                                            <button class="btn  btn-sm"><i class="fi-rs-label mr-10"></i>Apply</button>
-                                                        </div>
+                                        <div class="mb-30 mt-50">
+                                            <div class="heading_s1 mb-3">
+                                                <h4>Apply Coupon</h4>
+                                                @if (Session::has('coupon_message'))
+                                                    <div class="alert alert-danger my-2" role="danger">{{Session::get('coupon_message')}}</div>
+                                                @endif
+                                            </div>
+                                            <div class="total-amount">
+                                                <div class="left">
+                                                    <div class="coupon">
+                                                        <form wire:submit.prevent="applyCouponCode">
+                                                            <div class="form-row row justify-content-center">
+                                                                <div class="form-group col-lg-6">
+                                                                    <input class="font-medium" name="CouponCode"  placeholder="Enter Your Coupon" wire:model="CouponCode">
+                                                                </div>
+                                                                <div class="form-group col-lg-6">
+                                                                    <button class="btn  btn-sm"><i class="fi-rs-label mr-10"></i>Apply</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 <div class="border p-md-4 p-30 border-radius cart-totals">
@@ -377,22 +380,41 @@
                                     <div class="table-responsive">
                                         <table class="table">
                                             <tbody>
-                                                <tr>
-                                                    <td class="cart_total_label">Cart Subtotal</td>
-                                                    <td class="cart_total_amount"><span class="font-lg fw-900 text-brand">${{Cart::subtotal()}}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="cart_total_label">Tax</td>
-                                                    <td class="cart_total_amount"><span class="font-lg fw-900 text-brand">${{Cart::tax()}}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="cart_total_label">Shipping</td>
-                                                    <td class="cart_total_amount"> <i class="ti-gift mr-5"></i> Free Shipping</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="cart_total_label">Total</td>
-                                                    <td class="cart_total_amount"><strong><span class="font-xl fw-900 text-brand">${{Cart::total()}}</span></strong></td>
-                                                </tr>
+                                                @if (Session::has('coupon'))
+                                                    <tr>
+                                                        <td class="cart_Discount_amount">Discount Code <a href="#" wire:click.prevent="removeCoupon"><i class="fa fa-times text-danger"></i></a> </td>
+                                                        <td class="cart_Discount_label"><span class="font-lg fw-900 text-brand">{{Session::get('coupon')['code']}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="cart_Discount_amount">Discount </td>
+                                                        <td class="cart_Discount_label" ><span class="font-lg fw-900 text-brand">-${{number_format($discount,2)}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="cart_total_label"> Subtotal With Discount</td>
+                                                        <td class="cart_total_amount"><span class="font-lg fw-900 text-brand">${{number_format($subtotalAfterDiscount,2)}}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="cart_total_label"> Total</td>
+                                                        <td class="cart_total_amount"><span class="font-lg fw-900 text-brand">${{number_format($TotalAfterDiscount,2)}}</span></td>
+                                                    </tr>
+                                                @else 
+                                                        <tr>
+                                                            <td class="cart_total_label">Cart Subtotal</td>
+                                                            <td class="cart_total_amount"><span class="font-lg fw-900 text-brand">${{Cart::subtotal()}}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="cart_total_label">Tax</td>
+                                                            <td class="cart_total_amount"><span class="font-lg fw-900 text-brand">${{Cart::tax()}}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="cart_total_label">Shipping</td>
+                                                            <td class="cart_total_amount"> <i class="ti-gift mr-5"></i> Free Shipping</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="cart_total_label">Total</td>
+                                                            <td class="cart_total_amount"><strong><span class="font-xl fw-900 text-brand">${{Cart::total()}}</span></strong></td>
+                                                        </tr>
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>

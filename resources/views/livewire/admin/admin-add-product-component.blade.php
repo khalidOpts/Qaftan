@@ -26,7 +26,7 @@
                                 Add New Product
                             </div>
                             <div class="col-md-6">
-                                <a href="{{route('admin.products')}}" class="btn btn-success float-end">All Categories</a>
+                                <a href="{{route('admin.products')}}" class="btn btn-success float-end">All Products</a>
                             </div>
                            </div>
                         </div>

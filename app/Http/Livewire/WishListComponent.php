@@ -10,7 +10,7 @@ class WishListComponent extends Component
         foreach(Cart::instance('wishlist')->content() as $Witem){
             if($Witem->id == $product_id){
                 Cart::instance('wishlist')->remove($Witem->rowId);
-                $this->emitTo('wish-list-component','refreshComponent');
+                $this->emitTo('wish-list-icon-component','refreshComponent');
                 return;
             }
         }

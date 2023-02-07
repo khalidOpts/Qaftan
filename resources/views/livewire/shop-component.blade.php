@@ -80,7 +80,7 @@
                                         <div class="product-cart-wrap mb-30">
                                             <div class="product-img-action-wrap">
                                                 <div class="product-img product-img-zoom">
-                                                    <a href="{{route('product.details',['slug'=>$product->slug])}}">
+                                                    <a href="NEW PRODUCTS">
                                                         <img class="default-img" src="{{asset('assets/imgs/products')}}/{{$product->image}}" alt="{{$product->name}}">
                                                         <img class="hover-img" src="{{asset('assets/imgs/products')}}/{{$product->image}}" alt="{{$product->name}}">
                                                     </a>
@@ -237,14 +237,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="banner-img wow fadeIn mb-45 animated d-lg-block d-none">
+                        {{-- <div class="banner-img wow fadeIn mb-45 animated d-lg-block d-none">
                             <img src="assets/imgs/banner/banner-11.jpg" alt="">
                             <div class="banner-text">
                                 <span>Women Zone</span>
                                 <h4>Save 17% on <br>Office Dress</h4>
                                 <a href="shop.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
