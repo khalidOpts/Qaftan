@@ -1,4 +1,13 @@
 <div>
+    <style>
+        .wishlisted{
+            background-color: #F15412 !important;
+            border: 1px solid transparent !important;
+        }
+        .wishlisted i{
+            color: #fff !important;
+        }
+    </style>
     <main class="main">
         <div class="page-header breadcrumb-wrap">
             <div class="container">
@@ -65,6 +74,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-12 col-xs-12">
+
                                     <div class="detail-info">
                                         <h2 class="title-detail">{{$product->name}}</h2>
                                         <div class="product-detail-rating">
@@ -121,14 +131,26 @@
                                         </div>
                                         <div class="bt-1 border-color-1 mt-30 mb-30"></div>
                                         <div class="detail-extralink">
-                                            <div class="detail-qty border radius">
-                                                <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                                <span class="qty-val">1</span>
-                                                <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                            </div>
+                                            @foreach (Cart::instance('cart')->content() as $item)
+                                                <div class="detail-qty border radius  m-auto">
+                                                    <a href="#" class="qty-down" wire:click.prevent="decreaseQuantity('{{$item->rowId}}')"><i class="fi-rs-angle-small-down"></i></a>
+                                                    <span class="qty-val">{{$item->qty}}</span>
+                                                    <a href="#" class="qty-up" wire:click.prevent="increaseQuantity('{{$item->rowId}}')"><i class="fi-rs-angle-small-up"></i></a>
+                                                </div>
+                                            @endforeach
+
                                             <div class="product-extra-link2">
                                                 <button type="button" class="button button-add-to-cart" wire:click.prevent="store({{$product->id}},'{{$product->name}}','{{$product->regular_price}}')">Add to cart</button>
-                                                <a aria-label="Add To Wishlist" class="action-btn hover-up" href="wishlist.php"><i class="fi-rs-heart"></i></a>
+                                                @php
+                                                $Witems = Cart::instance('wishlist')->content()->pluck('id');
+                                             @endphp
+
+                                                    @if($Witems->contains($product->id))
+                                                         <a aria-label="Remove From  Wishlist" class="action-btn hover-up wishlisted" href="#" wire:click.prevent="removeWishList({{$product->id}})"><i class="fi-rs-heart"></i></a>
+                                                    @else
+                                                         <a aria-label="Add To Wishlist" class="action-btn hover-up" href="#" wire:click.prevent="addToWishList({{$product->id}},'{{$product->name}}',{{$product->regular_price}})"><i class="fi-rs-heart"></i></a>
+                                                    @endif
+                                                    <a aria-label="Add To Cart" class="action-btn hover-up" href="#" wire:click.prevent="store({{$product->id}},'{{$product->name}}','{{$product->regular_price}}')"><i class="fi-rs-shopping-bag-add"></i></a>
                                                 <a aria-label="Compare" class="action-btn hover-up" href="compare.php"><i class="fi-rs-shuffle"></i></a>
                                             </div>
                                         </div>
@@ -157,32 +179,6 @@
                                     <div class="tab-pane fade show active" id="Description">
                                        <div class="">
                                         {{$product->description}}
-                                          {{--
-                                            <p>Uninhibited carnally hired played in whimpered dear gorilla koala depending and much yikes off far quetzal goodness and from for grimaced goodness unaccountably and meadowlark near unblushingly crucial scallop
-                                                tightly neurotic hungrily some and dear furiously this apart.</p>
-                                            <p>Spluttered narrowly yikes left moth in yikes bowed this that grizzly much hello on spoon-fed that alas rethought much decently richly and wow against the frequent fluidly at formidable acceptably flapped
-                                                besides and much circa far over the bucolically hey precarious goldfinch mastodon goodness gnashed a jellyfish and one however because.
-                                            </p>
-                                            <ul class="product-more-infor mt-30">
-                                                <li><span>Type Of Packing</span> Bottle</li>
-                                                <li><span>Color</span> Green, Pink, Powder Blue, Purple</li>
-                                                <li><span>Quantity Per Case</span> 100ml</li>
-                                                <li><span>Ethyl Alcohol</span> 70%</li>
-                                                <li><span>Piece In One</span> Carton</li>
-                                            </ul>
-                                            <hr class="wp-block-separator is-style-dots">
-                                            <p>Laconic overheard dear woodchuck wow this outrageously taut beaver hey hello far meadowlark imitatively egregiously hugged that yikes minimally unanimous pouted flirtatiously as beaver beheld above forward
-                                                energetic across this jeepers beneficently cockily less a the raucously that magic upheld far so the this where crud then below after jeez enchanting drunkenly more much wow callously irrespective limpet.</p>
-                                            <h4 class="mt-30">Packaging & Delivery</h4>
-                                            <hr class="wp-block-separator is-style-wide">
-                                            <p>Less lion goodness that euphemistically robin expeditiously bluebird smugly scratched far while thus cackled sheepishly rigid after due one assenting regarding censorious while occasional or this more crane
-                                                went more as this less much amid overhung anathematic because much held one exuberantly sheep goodness so where rat wry well concomitantly.
-                                            </p>
-                                            <p>Scallop or far crud plain remarkably far by thus far iguana lewd precociously and and less rattlesnake contrary caustic wow this near alas and next and pled the yikes articulate about as less cackled dalmatian
-                                                in much less well jeering for the thanks blindly sentimental whimpered less across objectively fanciful grimaced wildly some wow and rose jeepers outgrew lugubrious luridly irrationally attractively
-                                                dachshund.
-                                            </p>
-                                            --}}
                                         </div> 
                                     </div>
                                     <div class="tab-pane fade" id="Additional-info">
@@ -537,7 +533,7 @@
                                 @foreach ($nproducts as $nproduct)
                                             <div class="single-post clearfix">
                                                 <div class="image">
-                                                    <img src="{{asset('assets/imgs/shop/thumbnail-')}}{{$nproduct->id}}.jpg" alt="{{$nproduct->name}}">
+                                                    <img src="{{asset('assets/imgs/products')}}/{{$nproduct->image}}" alt="{{$nproduct->name}}">
                                                 </div>
                                                 <div class="content pt-10">
                                                     <h5><a href="{{route('product.details',['slug'=>$nproduct->slug])}}">{{$nproduct->name}}</a></h5>

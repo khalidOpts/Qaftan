@@ -13,6 +13,7 @@
         <section class="mt-50 mb-50">
             <div class="container">
                 <div class="row">
+    @if(Cart::instance('cart')->count() > 0)
                     <div class="col-12">
                         <div class="table-responsive">
                             @if(Session::has('Success_Message'))
@@ -69,21 +70,21 @@
                             <h3>No Item in Cart</h3>
                             @endif
                         </div>
-                        <div class="cart-action text-end">
-                            <a class="btn  mr-10 mb-sm-15"><i class="fi-rs-shuffle mr-10"></i>Update Cart</a>
+                        {{-- <div class="cart-action text-end"> --}}
+                            {{-- <a class="btn  mr-10 mb-sm-15"><i class="fi-rs-shuffle mr-10"></i>Update Cart</a> --}}
                             <a class="btn" href="{{route('shop')}}"><i class="fi-rs-shopping-bag mr-10"></i>Continue Shopping</a>
                         </div>
                         <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
                         <div class="row mb-50">
                             <div class="col-lg-6 col-md-12">
-                                <div class="heading_s1 mb-3">
+                                {{-- <div class="heading_s1 mb-3">
                                     <h4>Calculate Shipping</h4>
-                                </div>
-                                <p class="mt-15 mb-30">Flat rate: <span class="font-xl text-brand fw-900">5%</span></p>
-                                <form class="field_form shipping_calculator">
+                                </div> --}}
+                                {{-- <p class="mt-15 mb-30">Flat rate: <span class="font-xl text-brand fw-900">5%</span></p> --}}
+                                {{-- <form class="field_form shipping_calculator"> --}}
                                     <div class="form-row">
                                         <div class="form-group col-lg-12">
-                                            <div class="custom_select">
+                                            {{-- <div class="custom_select">
                                                 <select class="form-control select-active">
                                                     <option value="">Choose a option...</option>
                                                     <option value="AX">Aland Islands</option>
@@ -330,10 +331,10 @@
                                                     <option value="ZM">Zambia</option>
                                                     <option value="ZW">Zimbabwe</option>
                                                 </select>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                     </div>
-                                    <div class="form-row row">
+                                    {{-- <div class="form-row row">
                                         <div class="form-group col-lg-6">
                                             <input required="required" placeholder="State / Country" name="name" type="text">
                                         </div>
@@ -345,35 +346,36 @@
                                         <div class="form-group col-lg-12">
                                             <button class="btn  btn-sm"><i class="fi-rs-shuffle mr-10"></i>Update</button>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </form>
-                                        <div class="mb-30 mt-50">
-                                            <div class="heading_s1 mb-3">
-                                                <h4>Apply Coupon</h4>
-                                                @if (Session::has('coupon_message'))
-                                                    <div class="alert alert-danger my-2" role="danger">{{Session::get('coupon_message')}}</div>
-                                                @endif
-                                            </div>
-                                            <div class="total-amount">
-                                                <div class="left">
-                                                    <div class="coupon">
-                                                        <form wire:submit.prevent="applyCouponCode">
-                                                            <div class="form-row row justify-content-center">
-                                                                <div class="form-group col-lg-6">
-                                                                    <input class="font-medium" name="CouponCode"  placeholder="Enter Your Coupon" wire:model="CouponCode">
-                                                                </div>
-                                                                <div class="form-group col-lg-6">
-                                                                    <button class="btn  btn-sm"><i class="fi-rs-label mr-10"></i>Apply</button>
-                                                                </div>
+                                        
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="border p-md-4 p-30 border-radius cart-totals">
+                                    <div class="mb-30 mt-50">
+                                        <div class="heading_s1 mb-3">
+                                            <h4>Apply Coupon</h4>
+                                            @if (Session::has('coupon_message'))
+                                                <div class="alert alert-danger my-2" role="danger">{{Session::get('coupon_message')}}</div>
+                                            @endif
+                                        </div>
+                                        <div class="total-amount">
+                                            <div class="left">
+                                                <div class="coupon">
+                                                    <form wire:submit.prevent="applyCouponCode">
+                                                        <div class="form-row row justify-content-center">
+                                                            <div class="form-group col-lg-6">
+                                                                <input class="font-medium" name="CouponCode"  placeholder="Enter Your Coupon" wire:model="CouponCode">
                                                             </div>
-                                                        </form>
-                                                    </div>
+                                                            <div class="form-group col-lg-6">
+                                                                <button class="btn  btn-sm"><i class="fi-rs-label mr-10"></i>Apply</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12">
-                                <div class="border p-md-4 p-30 border-radius cart-totals">
+                                    </div>
                                     <div class="heading_s1 mb-3">
                                         <h4>Cart Totals</h4>
                                     </div>
@@ -418,11 +420,19 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <a href="checkout.html" class="btn "> <i class="fi-rs-box-alt mr-10"></i> Proceed To CheckOut</a>
+                                    <a href="#" class="btn" wire:click.prevent="checkOut"> <i class="fi-rs-box-alt mr-10"></i> Proceed To CheckOut</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+    @else 
+                    <div class="text-center p-2">
+                        <h1>Your Cart Is empty</h1>
+                        <p>Add items to it now</p>
+                        <a href="{{route('shop')}}" class="btn btn-success">Shop Now</a>
+                    </div>
+    @endif 
+
                 </div>
             </div>
         </section>

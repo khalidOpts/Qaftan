@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+
 use Illuminate\Support\Facades\Route;
 use App\http\livewire\HomeComponent;
 use App\http\livewire\ShopComponent;
 use App\http\livewire\CartComponent;
 use App\http\livewire\CheckoutComponent;
+use App\http\livewire\ThankyouComponent;
 use App\http\livewire\User\UserDashboardComponent;
 use App\http\livewire\Admin\AdminDashboardComponent;
 use App\http\livewire\Admin\AdminCategoriesComponent;
@@ -44,6 +46,8 @@ use App\http\livewire\DetailsComponent;
 //     return view('welcome');
 // });
 
+
+
 Route::get('/',HomeComponent::class)->name('home.index');
 Route::get('/shop',ShopComponent::class)->name('shop');
 
@@ -56,6 +60,7 @@ Route::get('/checkout',CheckoutComponent::class)->name('shop.checkout');
 Route::get('/product-category/{slug}',CategoryComponent::class)->name('product.category');
 Route::get('/search',SearchComponent::class)->name('product.search');
 Route::get('/wishList',WishListComponent::class)->name('shop.wishList');
+Route::get('/thank-you',ThankyouComponent::class)->name('thankyou');
 
 
 // Route::get('/dashboard', function () {

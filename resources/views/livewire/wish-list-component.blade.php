@@ -29,6 +29,7 @@
         <section class="mt-50 mb-50">
             <div class="container">
                 <div class="row product-grid-3">
+                 @if(Cart::instance('wishlist')->count()>0)   
                     @foreach (Cart::instance('wishlist')->content() as $item)
                             <div class="col-lg-3 col-md-3 col-6 col-sm-6">
                                 <div class="product-cart-wrap mb-30">
@@ -70,7 +71,14 @@
                                     </div>
                                 </div>
                             </div>
-            @endforeach
+                     @endforeach
+                @else
+                            <div class="text-center">
+                                <h4>find more products</h4>
+                                <p>go for it</p>
+                                <a href="{{route('shop')}}" class="btn btn-success">shop now</a>
+                           </div>
+                @endif     
                 </div>
             </div>
         </section>          

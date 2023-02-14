@@ -19,7 +19,7 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
+                    <a href="/" rel="nofollow">Home</a>
                     <span></span> Shop
                 </div>
             </div>
@@ -80,7 +80,7 @@
                                         <div class="product-cart-wrap mb-30">
                                             <div class="product-img-action-wrap">
                                                 <div class="product-img product-img-zoom">
-                                                    <a href="NEW PRODUCTS">
+                                                    <a href="{{route('product.details',['slug'=>$product->slug])}}">
                                                         <img class="default-img" src="{{asset('assets/imgs/products')}}/{{$product->image}}" alt="{{$product->name}}">
                                                         <img class="hover-img" src="{{asset('assets/imgs/products')}}/{{$product->image}}" alt="{{$product->name}}">
                                                     </a>
@@ -106,7 +106,7 @@
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>{{$product->regular_price}}</span>
+                                                    <span>${{$product->regular_price}}</span>
                                                     {{-- <span class="old-price">{{$product->name}}</span> --}}
                                                 </div>
                                                 <div class="product-action-1 show">
@@ -200,19 +200,21 @@
                                 <h5 class="widget-title mb-10">New products</h5>
                                 <div class="bt-1 border-color-1"></div>
                             </div>
-                            <div class="single-post clearfix">
-                                <div class="image">
-                                    <img src="assets/imgs/shop/thumbnail-3.jpg" alt="#">
-                                </div>
-                                <div class="content pt-10">
-                                    <h5><a href="product-details.html">Chen Cardigan</a></h5>
-                                    <p class="price mb-0 mt-5">$99.50</p>
-                                    <div class="product-rate">
-                                        <div class="product-rating" style="width:90%"></div>
+                          @foreach ($lproduct as $item)
+                                <div class="single-post clearfix">
+                                    <div class="image">
+                                        <img src="{{asset('assets/imgs/products')}}/{{$item->image}}" alt="#">
+                                        </div>
+                                        <div class="content pt-10">
+                                            <h5><a href="{{route('product.details',['slug'=>$item->slug])}}">{{$item->name}}</a></h5>
+                                            <p class="price mb-0 mt-5">${{$item->regular_price}}</p>
+                                            <div class="product-rate">
+                                                <div class="product-rating" style="width:90%"></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="single-post clearfix">
+                            @endforeach  
+                            {{-- <div class="single-post clearfix">
                                 <div class="image">
                                     <img src="assets/imgs/shop/thumbnail-4.jpg" alt="#">
                                 </div>
@@ -235,16 +237,9 @@
                                         <div class="product-rating" style="width:60%"></div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
-                        {{-- <div class="banner-img wow fadeIn mb-45 animated d-lg-block d-none">
-                            <img src="assets/imgs/banner/banner-11.jpg" alt="">
-                            <div class="banner-text">
-                                <span>Women Zone</span>
-                                <h4>Save 17% on <br>Office Dress</h4>
-                                <a href="shop.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
-                            </div>
-                        </div> --}}
+    
                     </div>
                 </div>
             </div>
