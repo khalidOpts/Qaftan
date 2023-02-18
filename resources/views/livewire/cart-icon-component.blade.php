@@ -1,7 +1,12 @@
+<style>
+        .cartSVG{
+        width: 20px;
+    }
+</style>
 <div>
     <div class="header-action-icon-2">
         <a class="mini-cart-icon" href="{{route('shop.cart')}}">
-            <img alt="Cart" src="{{asset('assets/imgs/theme/icons/icon-cart.svg')}}">
+            <img alt="Cart" class="cartSVG" src="{{asset('assets/imgs/theme/icons/icon-cart.svg')}}">
             @if(Cart::instance('cart')->count() > 0)
             <span class="pro-count blue">{{Cart::instance('cart')->count()}}</span>
             @endif

@@ -8,7 +8,12 @@ use App\http\livewire\ShopComponent;
 use App\http\livewire\CartComponent;
 use App\http\livewire\CheckoutComponent;
 use App\http\livewire\ThankyouComponent;
+use App\http\livewire\ErrorComponent;
+// start user
 use App\http\livewire\User\UserDashboardComponent;
+use App\http\livewire\User\UserordesComponent;
+use App\http\livewire\User\UserorderDetailsComponent;
+// end user
 use App\http\livewire\Admin\AdminDashboardComponent;
 use App\http\livewire\Admin\AdminCategoriesComponent;
 use App\http\livewire\Admin\AdminAddCategoryComponent;
@@ -24,6 +29,9 @@ use App\http\livewire\Admin\AdminHomeSliderComponent;
 use App\http\livewire\Admin\AdminCoupensComponent;
 use App\http\livewire\Admin\AdminAddCoupensComponent;
 use App\http\livewire\Admin\AdminEditCoupensComponent;
+// Admin orders
+use App\http\livewire\Admin\AdminorderComponent;
+use App\http\livewire\Admin\AdminordeDetailsrComponent;
 
 use App\http\livewire\CategoryComponent;
 use App\http\livewire\SearchComponent;
@@ -57,10 +65,14 @@ Route::get('/product/{slug}',DetailsComponent::class)->name('product.details');
 
 Route::get('/cart',CartComponent::class)->name('shop.cart');
 Route::get('/checkout',CheckoutComponent::class)->name('shop.checkout');
+Route::get('/pay.success',[CheckoutComponent::class,'success'])->name('pay.success');
+Route::get('/pay.cancel',[CheckoutComponent::class,'cancel'])->name('pay.cancel');
+
 Route::get('/product-category/{slug}',CategoryComponent::class)->name('product.category');
 Route::get('/search',SearchComponent::class)->name('product.search');
 Route::get('/wishList',WishListComponent::class)->name('shop.wishList');
 Route::get('/thank-you',ThankyouComponent::class)->name('thankyou');
+Route::get('/Error',ErrorComponent::class)->name('Error');
 
 
 // Route::get('/dashboard', function () {
@@ -69,6 +81,8 @@ Route::get('/thank-you',ThankyouComponent::class)->name('thankyou');
 
 Route::middleware(['auth'])->group(function(){
     Route::get('user/dashboard',UserDashboardComponent::class)->name('user.dashboard');
+    Route::get('user/orders',UserordesComponent::class)->name('user.orders');
+    Route::get('user/orders/details/{order_id}',UserorderDetailsComponent::class)->name('user.orders.details');
 });
 Route::middleware(['auth','AuthAdmin'])->group(function(){
     Route::get('admin/dashboard',AdminDashboardComponent::class)->name('admin.dashboard');
@@ -85,6 +99,8 @@ Route::middleware(['auth','AuthAdmin'])->group(function(){
     Route::get('admin/coupens',AdminCoupensComponent::class)->name('admin.coupens');
     Route::get('admin/coupens/add',AdminAddCoupensComponent::class)->name('admin.coupens.add');
     Route::get('admin/coupens/edit/{coupen_id}',AdminEditCoupensComponent::class)->name('admin.coupens.edit');
+    Route::get('admin/order',AdminorderComponent::class)->name('admin.order');
+    Route::get('admin/orderDetails/{order_id}',AdminordeDetailsrComponent::class)->name('admin.orderDetails');
 
 });
 

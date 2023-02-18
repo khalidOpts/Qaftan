@@ -95,7 +95,7 @@
                     </div>
                     <div class="header-nav d-none d-lg-flex">
                         <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
-                            <nav>
+                            <nav >
                                 <ul>
                                     <li><a class="active" href="/">Home </a></li>
                                     <li><a href="about.html">About</a></li>
@@ -111,17 +111,26 @@
                                                     <li><a href="{{route('admin.categories')}}">Categories</a></li>
                                                     <li><a href="{{route('admin.Home.slider')}}">Manage Slider</a></li>
                                                     <li><a href="{{route('admin.coupens')}}">Coupons</a></li>
-                                                    <li><a href="#">Orders</a></li>
+                                                    <li><a href="{{route('admin.order')}}">Orders</a></li>
                                                     <li><a href="#">Customers</a></li>
                                                 </ul>
                                                 @else
                                                 <ul class="sub-menu">
                                                     <li><a href="{{route('user.dashboard')}}">Dashboard</a></li>
+                                                    <li><a href="{{route('user.orders')}}">My Orders</a></li>
                                                 </ul>
                                         @endif
                                     </li>
                                     @endif
                                 </ul>
+                                {{-- <ul class="cool" style="flex:flex-end !important;">
+                                    <li>
+                                        @livewire('wish-list-icon-component')
+                                    </li>
+                                    <li>
+                                        @livewire('cart-icon-component')
+                                    </li>
+                                </ul> --}}
                             </nav>
                         </div>
                     </div>

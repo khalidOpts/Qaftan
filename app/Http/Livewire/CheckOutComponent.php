@@ -2,16 +2,18 @@
 
 namespace App\Http\Livewire;
 
+use Illuminate\Http\Request;
 use Livewire\Component;
 use App\Models\order;
 use App\Models\orderItem;
 use App\Models\shipping;
 use App\Models\transaction;
 use App\Models\User;
-use Omnipay\Omnipay;
-
 use Illuminate\Support\Facades\Auth;
 use Cart;
+
+use Srmklive\PayPal\Services\ExpressCheckout;
+
 class CheckOutComponent extends Component
 {
     public $ship_to_diffrent;
@@ -189,58 +191,63 @@ class CheckOutComponent extends Component
         }
         
         // start payPal transaction
-       else if ($this->paymentMode == 'card') { 
-        $payPal = Omnipay::create('PayPal_Express');
-        // Start
-        $payPal->setUsername('sb-jnefe25027525_api1.business.example.com');
-        $payPal->setPassword('G7TDPTKJXBJT4ZCW');
-        $payPal->setSignature('AnXIE4SWGdHEIptbOoi9lYJI6UREA1CICn.Qqub.h9SbNIJHqwtKZRc6');
-        $payPal->setTestMode(true);
-        // End
-        try {
-            $response = $payPal->purchase([
-                'amount' => session()->get('checkout')['total'],
-                'currency' => 'USD',
-                'card' => [
-                    'firstName'=>    $this->firstName,
-                    'lastName'=>     $this->lastName,
-                    'number' =>      $this->card_num,
-                    'expiryMonth' => $this->exp_month,
-                    'expiryYear' =>  $this->exp_year,
-                    'cvv' =>         $this->cvc
-                ],
-                'returnUrl' => route('thankyou'),
-                'cancelUrl' => url('/checkout/cancel'),
-                'description' => 'Payment for order number ' . $order->id,
-            ])->send();
-    
-            if ($response->isSuccessful()) {
-                    $transaction = new transaction();
-                    $transaction->user_id  = Auth::user()->id; 
-                    $transaction->order_id  = $order_id; 
-                    $transaction->mode  = $this->paymentMode; 
-                    $transaction->status  = 'approval'; 
-                    $transaction->save();
+    //    else if ($this->paymentMode == 'paypal') { 
+      
+    //     $data = [];
+    //     $data['items'] =[
+    //         [
+    //             'name'=>'Apple',
+    //             'price'=> $item->price,
+    //             'description'=>'MackBook pro 14 inch',
+    //             'qty'=>$item->qty
+    //         ]
+    //     ];
+    //     $i=1;
+    //     $data['invoice_id'] = $i++;
+    //     $data['invoice_description'] ='Order Invoice';
+    //     $data['return_url'] =route('pay.success');
+    //     $data['cancel_url'] =route('pay.cancel');
+    //     $data['total'] =$item->qty*$item->price;
 
-                    $this->thankyou=1;
-                    Cart::instance('cart')->destroy();
-                    session()->forget('checkout');
+    //     $provider = new ExpressCheckout;
+    //     $response = $provider->setExpressCheckout($data);
+    //     $response = $provider->setExpressCheckout($data,true);
 
-            } else {
-                session()->flash('payPal_error', $response->getMessage());
-                $this->thankyou = 0;
-            }
-        } catch (Exception $e) {
-            session()->flash('payPal_error', $e->getMessage());
-            $this->thankyou = 0;
-        }
+    //     return redirect($response['paypal_link']);
+    // }
+        // $this->cancel();
+        // $this->success();
     }
+
+    // public function cancel(){
+    //     dd('you cancelled this payment');
+    // }
+    // public function success(Request $request){
+    //     $provider = new ExpressCheckout;
+    //     $response = $provider->getExpressCheckoutDetails($request->token);
+
+    //     if($response){
+    //         // $this->thankyou=1;
+    //         Cart::instance('cart')->destroy();
+    //         session()->forget('checkout');
+    //         return redirect()->route('thankyou');
+    //     }else{
+    //         return view('Livewire.error-component'); 
+    //     }
+
+    // }
+
+
+   
     
         
         // end payPal transaction
        
 
-    }
+   
+
+  
+        // }
         //  function restCart(){
         //     $this->thankyou=1;
         //     Cart::instance('cart')->destroy();
